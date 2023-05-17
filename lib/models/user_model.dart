@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 part 'user_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class User {
   int? id;
   String? name;
