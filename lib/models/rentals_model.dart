@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'rentals_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Rental {
   int? id;
   int? userId;

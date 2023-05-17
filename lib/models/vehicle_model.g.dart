@@ -8,24 +8,24 @@ part of 'vehicle_model.dart';
 
 Vehicle _$VehicleFromJson(Map<String, dynamic> json) => Vehicle(
       id: json['id'] as int?,
-      locationId: json['locationId'] as int?,
-      vehicleStatus: json['vehicleStatus'] as String?,
+      locationId: json['location_id'] as int?,
+      vehicleStatus: json['vehicle_status'] as String?,
       age: json['age'] as int?,
-      odometerReading: json['odometerReading'] as int?,
-      registrationId: json['registrationId'] as int?,
+      odometerReading: json['odometer_reading'] as int?,
+      registrationId: json['registration_id'] as int?,
       details: json['details'] as String?,
-      vehicleTypeDetailsId: json['vehicleTypeDetailsId'] as int?,
-      imgUrl: json['imgUrl'] as String?,
+      vehicleTypeDetailsId: json['vehicle_type_details_id'] as int?,
+      imgUrl: json['img_url'] as String?,
     );
 
 Map<String, dynamic> _$VehicleToJson(Vehicle instance) => <String, dynamic>{
       'id': instance.id,
-      'locationId': instance.locationId,
-      'vehicleStatus': instance.vehicleStatus,
+      'location_id': instance.locationId,
+      'vehicle_status': instance.vehicleStatus,
       'age': instance.age,
-      'odometerReading': instance.odometerReading,
-      'registrationId': instance.registrationId,
+      'odometer_reading': instance.odometerReading,
+      'registration_id': instance.registrationId,
       'details': instance.details,
-      'vehicleTypeDetailsId': instance.vehicleTypeDetailsId,
-      'imgUrl': instance.imgUrl,
+      'vehicle_type_details_id': instance.vehicleTypeDetailsId,
+      'img_url': instance.imgUrl,
     };

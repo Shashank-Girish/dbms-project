@@ -13,7 +13,7 @@ Location _$LocationFromJson(Map<String, dynamic> json) => Location(
       name: json['name'] as String?,
       address: json['address'] as String?,
       zipcode: json['zipcode'] as String?,
-      numVehicles: json['numVehicles'] as int?,
+      numVehicles: json['num_vehicles'] as int?,
     );
 
 Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
@@ -23,5 +23,5 @@ Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
       'name': instance.name,
       'address': instance.address,
       'zipcode': instance.zipcode,
-      'numVehicles': instance.numVehicles,
+      'num_vehicles': instance.numVehicles,
     };

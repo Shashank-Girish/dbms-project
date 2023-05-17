@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'admin_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Admin {
   int? id;
   String? name;
