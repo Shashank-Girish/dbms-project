@@ -10,7 +10,7 @@ class UserRemoteDatasource {
       "uid": [uid.toString()]
     });
     print(uri.toString());
-    var client = http.Client();
+    
     var response = await http.get(uri);
     var val = json.decode(response.body);
     print(val['data'][0]);
@@ -21,7 +21,7 @@ class UserRemoteDatasource {
     var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
         '/user/admin_get_users.php');
     print(uri.toString());
-    var client = http.Client();
+    
     var response = await http.get(uri);
     var val = json.decode(response.body);
     print(response.body);
@@ -36,7 +36,7 @@ class UserRemoteDatasource {
     var uri = Uri.https(
         "dbsvehiclerentalsystem.000webhostapp.com", '/user/signup.php');
     print(uri.toString());
-    var client = http.Client();
+    
     var val = user.toJson();
     print(val);
     var response = await http.post(uri, body: json.encode(val));
@@ -50,7 +50,7 @@ class UserRemoteDatasource {
       'uid': [user.id.toString()]
     });
     print(uri.toString());
-    var client = http.Client();
+    
     var val = user.toJson();
     var response = await http.post(uri, body: json.encode(val));
 
@@ -63,7 +63,7 @@ class UserRemoteDatasource {
       'uid': [uid.toString()]
     });
     print(uri.toString());
-    var client = http.Client();
+    
     var val = {"password": newPassword};
     var response = await http.post(uri, body: json.encode(val));
 
