@@ -12,7 +12,7 @@ Vehicle _$VehicleFromJson(Map<String, dynamic> json) => Vehicle(
       vehicleStatus: json['vehicle_status'] as String?,
       age: json['age'] as int?,
       odometerReading: json['odometer_reading'] as int?,
-      registrationId: json['registration_id'] as int?,
+      registrationId: json['registration_id'] as String?,
       details: json['details'] as String?,
       vehicleTypeDetailsId: json['vehicle_type_details_id'] as int?,
       imgUrl: json['img_url'] as String?,

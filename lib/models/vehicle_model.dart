@@ -9,7 +9,7 @@ class Vehicle {
   String? vehicleStatus;
   int? age;
   int? odometerReading;
-  int? registrationId;
+  String? registrationId;
   String? details;
   int? vehicleTypeDetailsId;
   String? imgUrl;

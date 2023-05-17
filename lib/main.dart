@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vehicle_rental/connector/location_connector.dart';
+import 'package:vehicle_rental/connector/rentals_connector.dart';
+import 'package:vehicle_rental/connector/user_connector.dart';
+import 'package:vehicle_rental/connector/vehicle_connector.dart';
+import 'package:vehicle_rental/connector/vehicle_type_connector.dart';
 
 void main() {
   runApp(const MyApp());
@@ -58,6 +63,15 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      UserRemoteDatasource().getUserData(1).then((value) => print(value));
+      LocationRemoteDatasource().deleteLocation(20);
+      VehicleTypeRemoteDatasource()
+          .getVehicleDetails()
+          .then((value) => print(value));
+      VehicleRemoteDatasource()
+          .getVehicleDetails()
+          .then((value) => print(value));
+      RentalsRemoteDatasource().getRentalDetails().then((value) => print(value));
     });
   }
 

@@ -27,9 +27,7 @@ class LocationRemoteDatasource {
 
     print(response.body);
   }
-}
-
-Future<void> deleteLocation(int lid) async {
+  Future<void> deleteLocation(int lid) async {
   var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
       '/locations/delete_location.php', {
     'lid': [lid.toString()]
@@ -39,3 +37,5 @@ Future<void> deleteLocation(int lid) async {
 
   print(response.body);
 }
+}
+
