@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Expanded(
                 child: Image.asset(
-                  "car.png",
+                  "assets/car.png",
                 ),
               ),
               Expanded(
