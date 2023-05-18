@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vehicle_rental/connector/user_connector.dart';
 import 'package:vehicle_rental/core/colors.dart';
 import 'package:vehicle_rental/core/widgets/input_text_field.dart';
 import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
+import 'package:vehicle_rental/models/user_model.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,6 +15,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   ValueNotifier<bool> submitted = ValueNotifier<bool>(false);
   final formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  ValueNotifier<String?> userName = ValueNotifier<String?>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 50.0),
                         child: InputTextField(
-                          textEditingController: TextEditingController(),
+                          textEditingController: emailController,
                            validator: (enteredText) {
                             return enteredText!.trim().isEmpty;
                           },
@@ -60,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 8.0),
                         child: InputTextField(
-                          textEditingController: TextEditingController(),
+                          textEditingController: passwordController,
                           validator: (enteredText) {
                             return enteredText!.trim().length < 8;
                           },
@@ -102,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                             child: SolidTextButton(
                               text: "Sign In",
                               isLoading: value,
-                              onPressed: () {
+                              onPressed: () async {
                                 if(value) return;
                                 submitted.value = true;
 
@@ -110,12 +115,36 @@ class _LoginPageState extends State<LoginPage> {
                                   submitted.value = false;
                                   return;
                                 }
+
+                                User? user = await UserRemoteDatasource().signIn(User(
+                                  emailId: emailController.text,
+                                  password: passwordController.text
+                                ));
+                                submitted.value = false;
+                                print(user?.name);
+                                userName.value = user?.name;
                 
                               },
                             ),
                           );
                         }
-                      )
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: ValueListenableBuilder(
+                          valueListenable: userName,
+                          builder: (BuildContext context, String? value, _) {
+                            if(value != null) {
+                              return Text(
+                                "Hello $value"
+                              );
+                            }
+                            else {
+                              return Container();
+                            }
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
