@@ -44,6 +44,16 @@ class UserRemoteDatasource {
     print(response.body);
   }
 
+  Future signIn(User user) async {
+    var uri = Uri.https(
+        "dbsvehiclerentalsystem.000webhostapp.com", '/user/login.php');
+
+    var val = user.toJson();
+    var response = await http.post(uri, body: json.encode(val));
+    
+    return json.decode(response.body);
+  }
+
   Future<void> updateUserDetails(User user) async {
     var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
         '/user/update_details.php', {
