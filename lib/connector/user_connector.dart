@@ -32,16 +32,20 @@ class UserRemoteDatasource {
     return users;
   }
 
-  Future<void> signUp(User user) async {
+  Future<User?> signUp(User user) async {
     var uri = Uri.https(
         "dbsvehiclerentalsystem.000webhostapp.com", '/user/signup.php');
-    print(uri.toString());
     
     var val = user.toJson();
-    print(val);
     var response = await http.post(uri, body: json.encode(val));
+    var body = json.decode(response.body);
 
-    print(response.body);
+    if(body["success"] == true) {
+      user.id = body["uid"];
+      return user;
+    }else {
+      return null;
+    }
   }
 
   Future<User?> signIn(User user) async {
