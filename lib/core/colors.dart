@@ -5,3 +5,4 @@ const kLinearGradientColors = [
   Color.fromRGBO(60, 59, 88, 1),
   Color.fromRGBO(241, 116, 107, 1)
 ];
+const kLoginErrorColor = Color.fromRGBO(107, 168, 158, 1);
