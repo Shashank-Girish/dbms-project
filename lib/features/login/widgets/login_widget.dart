@@ -3,6 +3,7 @@ import 'package:vehicle_rental/connector/user_connector.dart';
 import 'package:vehicle_rental/core/colors.dart';
 import 'package:vehicle_rental/core/widgets/input_text_field.dart';
 import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
+import 'package:vehicle_rental/features/login/error_messages.dart';
 import 'package:vehicle_rental/models/user_model.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -17,7 +18,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   ValueNotifier<bool> submitted = ValueNotifier<bool>(false);
-  ValueNotifier<String?> userName = ValueNotifier<String?>(null);
+  ValueNotifier<String?> errorMessage = ValueNotifier<String?>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,22 @@ class _LoginWidgetState extends State<LoginWidget> {
           const Text(
             "Sign In",
             style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+          ),
+          ValueListenableBuilder(
+            valueListenable: errorMessage,
+            builder: (BuildContext context, String? value, _) {
+              if (value != null) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Text(
+                  value,
+                  style: const TextStyle(color: kLoginErrorColor),
+              ),
+                );
+              } else {
+                return Container();
+              }
+            },
           ),
           Padding(
             padding: const EdgeInsets.only(top: 50.0),
@@ -94,29 +111,23 @@ class _LoginWidgetState extends State<LoginWidget> {
                         return;
                       }
 
-                      User? user = await UserRemoteDatasource().signIn(User(
-                          emailId: emailController.text,
-                          password: passwordController.text));
+                      Map<String, dynamic> response =
+                          await UserRemoteDatasource().signIn(User(
+                              emailId: emailController.text,
+                              password: passwordController.text));
+
+                      if (response["success"] == true) {
+                        errorMessage.value = response["data"].name;
+                      } else {
+                        errorMessage.value =
+                            handleErrorMessage(response["error"]);
+                      }
+
                       submitted.value = false;
-                      print(user?.name);
-                      userName.value = user?.name;
                     },
                   ),
                 );
               }),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: ValueListenableBuilder(
-              valueListenable: userName,
-              builder: (BuildContext context, String? value, _) {
-                if (value != null) {
-                  return Text("Hello $value");
-                } else {
-                  return Container();
-                }
-              },
-            ),
-          ),
         ],
       ),
     );

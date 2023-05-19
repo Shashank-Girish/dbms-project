@@ -3,6 +3,7 @@ import 'package:vehicle_rental/connector/user_connector.dart';
 import 'package:vehicle_rental/core/colors.dart';
 import 'package:vehicle_rental/core/widgets/input_text_field.dart';
 import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
+import 'package:vehicle_rental/features/login/error_messages.dart';
 import 'package:vehicle_rental/models/user_model.dart';
 
 List<String> genders = ["Male", "Female", "Others"];
@@ -30,7 +31,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       TextEditingController();
 
   ValueNotifier<bool> submitted = ValueNotifier<bool>(false);
-  ValueNotifier<String?> userName = ValueNotifier<String?>(null);
+  ValueNotifier<String?> errorMessage = ValueNotifier<String?>(null);
   ValueNotifier<int> stepNumber = ValueNotifier<int>(1);
   ValueNotifier<String?> gender = ValueNotifier<String?>(null);
 
@@ -43,6 +44,22 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         const Text(
           "Sign Up",
           style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+        ),
+        ValueListenableBuilder(
+          valueListenable: errorMessage,
+          builder: (BuildContext context, String? value, _) {
+            if (value != null) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Text(
+                  value,
+                  style: const TextStyle(color: kLoginErrorColor),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          },
         ),
         ValueListenableBuilder(
           valueListenable: stepNumber,
@@ -72,62 +89,59 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             )
           ],
         ),
-        ValueListenableBuilder(
-          valueListenable: stepNumber,
-          builder: (BuildContext context, int value, _) {
-            if (value == 1) {
-              return button("Next", () {
-                if (!formKey1.currentState!.validate()) return;
-
-                stepNumber.value = 2;
-              });
-            } else {
-              return Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    button("Previous", () {
-                      stepNumber.value = 1;
-                    }),
-                    button("Sign Up", (bool value) async {
-                      if (value) return;
-                      submitted.value = true;
-
-                      if (!formKey2.currentState!.validate()) {
-                        submitted.value = false;
-                        return;
-                      }
-
-                      User? user  = await UserRemoteDatasource().signUp(User(
-                        name: nameController.text,
-                        emailId: emailController.text,
-                        phoneNumber: phoneController.text,
-                        address: addressController.text,
-                        zipcode: zipcodeController.text,
-                        licenseId: licenseController.text,
-                        password: passwordController.text,
-                        gender: gender.value![0],
-                        age: int.parse(ageController.text),
-                      ));
-
-                      submitted.value = false;
-                      userName.value = user?.name;
-                    }, asynchronous: true)
-                  ],
-                ),
-              );
-            }
-          },
-        ),
         Padding(
-          padding: const EdgeInsets.only(top: 20.0),
+          padding: const EdgeInsets.only(bottom: 16.0),
           child: ValueListenableBuilder(
-            valueListenable: userName,
-            builder: (BuildContext context, String? value, _) {
-              if (value != null) {
-                return Text("Hello $value");
+            valueListenable: stepNumber,
+            builder: (BuildContext context, int value, _) {
+              if (value == 1) {
+                return button("Next", () {
+                  if (!formKey1.currentState!.validate()) return;
+
+                  stepNumber.value = 2;
+                });
               } else {
-                return Container();
+                return Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      button("Previous", () {
+                        stepNumber.value = 1;
+                      }),
+                      button("Sign Up", (bool value) async {
+                        if (value) return;
+                        submitted.value = true;
+
+                        if (!formKey2.currentState!.validate()) {
+                          submitted.value = false;
+                          return;
+                        }
+
+                        Map<String, dynamic> response =
+                            await UserRemoteDatasource().signUp(User(
+                          name: nameController.text,
+                          emailId: emailController.text,
+                          phoneNumber: phoneController.text,
+                          address: addressController.text,
+                          zipcode: zipcodeController.text,
+                          licenseId: licenseController.text,
+                          password: passwordController.text,
+                          gender: gender.value![0],
+                          age: int.parse(ageController.text),
+                        ));
+
+                        if (response["success"] == true) {
+                          errorMessage.value = response["data"].name;
+                        } else {
+                          errorMessage.value =
+                              handleErrorMessage(response["error"]);
+                        }
+
+                        submitted.value = false;
+                      }, asynchronous: true)
+                    ],
+                  ),
+                );
               }
             },
           ),
@@ -260,7 +274,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   textEditingController: ageController,
                   validator: (enteredText) {
                     return enteredText!.trim().isEmpty ||
-                        int.tryParse(enteredText) == null;
+                        int.tryParse(enteredText) == null ||
+                        int.parse(enteredText) < 18 ||
+                        int.parse(enteredText) > 127;
                   },
                   keyboardType: TextInputType.number,
                   errorColor: kLoginErrorColor,
@@ -270,16 +286,19 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   validatorMessage: "Enter a valid age",
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.03),
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.03),
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.15,
                     child: ValueListenableBuilder(
                         valueListenable: gender,
-                        builder: (BuildContext context, String? chosenValue, _) {
+                        builder:
+                            (BuildContext context, String? chosenValue, _) {
                           return DropdownButtonFormField(
                             value: chosenValue,
-                            validator: (value) =>
-                                value == null ? 'You must choose a gender' : null,
+                            validator: (value) => value == null
+                                ? 'You must choose a gender'
+                                : null,
                             items: genders.map<DropdownMenuItem<String>>(
                               (String value) {
                                 return DropdownMenuItem<String>(
@@ -304,7 +323,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                               ),
                             ),
                             dropdownColor: kLinearGradientColors[0],
-                            icon: const Icon(Icons.keyboard_arrow_down_outlined),
+                            icon:
+                                const Icon(Icons.keyboard_arrow_down_outlined),
                           );
                         }),
                   ),

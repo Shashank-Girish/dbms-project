@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:vehicle_rental/core/widgets/messages.dart';
 import '../models/user_model.dart';
 
 class UserRemoteDatasource {
@@ -32,35 +33,64 @@ class UserRemoteDatasource {
     return users;
   }
 
-  Future<User?> signUp(User user) async {
-    var uri = Uri.https(
-        "dbsvehiclerentalsystem.000webhostapp.com", '/user/signup.php');
-    
-    var val = user.toJson();
-    var response = await http.post(uri, body: json.encode(val));
-    var body = json.decode(response.body);
+  Future<Map<String, dynamic>> signUp(User user) async {
+    try{
+      var uri = Uri.https(
+          "dbsvehiclerentalsystem.000webhostapp.com", '/user/signup.php');
+      
+      var val = user.toJson();
+      var response = await http.post(uri, body: json.encode(val));
+      var body = json.decode(response.body);
 
-    if(body["success"] == true) {
-      user.id = body["uid"];
-      return user;
-    }else {
-      return null;
+      if(body["success"] == true) {
+        user.id = body["uid"];
+        return {
+          "success": true,
+          "data": user
+        };
+      }
+      else {
+        return {
+          "success": false,
+          "error": body["error"]
+        };
+      }
+    }
+    catch(e) {
+      return {
+        "success": false,
+        "error": kSomethingWentWrongMessage
+      };
     }
   }
 
-  Future<User?> signIn(User user) async {
-    var uri = Uri.https(
-        "dbsvehiclerentalsystem.000webhostapp.com", '/user/login.php');
+  Future<Map<String, dynamic>> signIn(User user) async {
+    try {
+      var uri = Uri.https(
+          "dbsvehiclerentalsystem.000webhostapp.com", '/user/login.php');
 
-    var val = user.toJson();
-    var response = await http.post(uri, body: json.encode(val));
-    var body = json.decode(response.body);
+      var val = user.toJson();
+      var response = await http.post(uri, body: json.encode(val));
+      var body = json.decode(response.body);
 
-    if(body["success"] == true) {
-      return User.fromJson(body["data"]);
+      if(body["success"] == true) {
+        return {
+          "success": true,
+          "data": User.fromJson(body["data"])
+        };
+      }
+      else {
+        return {
+          "success": false,
+          "error": body["error"]
+        };
+      }
     }
-    else {
-      return null;
+    catch(e) {
+      return {
+        "success": false,
+        "error": kSomethingWentWrongMessage
+      };
     }
   }
 

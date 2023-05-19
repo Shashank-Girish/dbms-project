@@ -1,0 +1,1 @@
+const kSomethingWentWrongMessage = "Something Went Wrong!";
