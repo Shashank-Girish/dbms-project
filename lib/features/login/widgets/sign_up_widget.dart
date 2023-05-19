@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vehicle_rental/connector/user_connector.dart';
 import 'package:vehicle_rental/core/colors.dart';
 import 'package:vehicle_rental/core/widgets/input_text_field.dart';
+import 'package:vehicle_rental/core/widgets/responsive.dart';
 import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
 import 'package:vehicle_rental/features/login/error_messages.dart';
 import 'package:vehicle_rental/models/user_model.dart';
@@ -191,7 +192,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               },
               errorColor: kLoginErrorColor,
               maxLength: 40,
-              width: MediaQuery.of(context).size.width * 0.3,
+              width: Responsive.isDesktop(context)
+                  ? MediaQuery.of(context).size.width * 0.3
+                  : MediaQuery.of(context).size.width * 0.6,
               hintText: "Name",
               validatorMessage: "Name cannot be empty",
             ),
@@ -205,7 +208,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               },
               errorColor: kLoginErrorColor,
               maxLength: 50,
-              width: MediaQuery.of(context).size.width * 0.3,
+              width: Responsive.isDesktop(context)
+                  ? MediaQuery.of(context).size.width * 0.3
+                  : MediaQuery.of(context).size.width * 0.6,
               hintText: "Email",
               validatorMessage: "Email ID cannot be empty",
             ),
@@ -220,7 +225,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               errorColor: kLoginErrorColor,
               maxLength: 150,
               maxLines: 3,
-              width: MediaQuery.of(context).size.width * 0.3,
+              width: Responsive.isDesktop(context)
+                  ? MediaQuery.of(context).size.width * 0.3
+                  : MediaQuery.of(context).size.width * 0.6,
               hintText: "Address",
               validatorMessage: "Address cannot be empty",
             ),
@@ -236,7 +243,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               keyboardType: TextInputType.number,
               errorColor: kLoginErrorColor,
               maxLength: 6,
-              width: MediaQuery.of(context).size.width * 0.3,
+              width: Responsive.isDesktop(context)
+                  ? MediaQuery.of(context).size.width * 0.3
+                  : MediaQuery.of(context).size.width * 0.6,
               hintText: "Zipcode",
               validatorMessage: "Zipcode must be exactly 6 digits",
             ),
@@ -263,7 +272,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               keyboardType: TextInputType.number,
               errorColor: kLoginErrorColor,
               maxLength: 10,
-              width: MediaQuery.of(context).size.width * 0.3,
+              width: Responsive.isDesktop(context)
+                  ? MediaQuery.of(context).size.width * 0.3
+                  : MediaQuery.of(context).size.width * 0.6,
               hintText: "Phone No",
               validatorMessage: "Phone number must be exactly 10 digits",
             ),
@@ -285,15 +296,22 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   keyboardType: TextInputType.number,
                   errorColor: kLoginErrorColor,
                   maxLength: 4,
-                  width: MediaQuery.of(context).size.width * 0.12,
+                  width: Responsive.isDesktop(context)
+                      ? MediaQuery.of(context).size.width * 0.12
+                      : MediaQuery.of(context).size.width * 0.24,
                   hintText: "Age",
                   validatorMessage: "Enter a valid age",
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.03),
+                    left: Responsive.isDesktop(context)
+                        ? MediaQuery.of(context).size.width * 0.03
+                        : MediaQuery.of(context).size.width * 0.06,
+                  ),
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.15,
+                    width: Responsive.isDesktop(context)
+                        ? MediaQuery.of(context).size.width * 0.15
+                        : MediaQuery.of(context).size.width * 0.3,
                     child: ValueListenableBuilder(
                         valueListenable: gender,
                         builder:
@@ -345,7 +363,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               },
               errorColor: kLoginErrorColor,
               maxLength: 15,
-              width: MediaQuery.of(context).size.width * 0.3,
+              width: Responsive.isDesktop(context)
+                  ? MediaQuery.of(context).size.width * 0.3
+                  : MediaQuery.of(context).size.width * 0.6,
               hintText: "License ID",
               validatorMessage: "License ID must be exactly 15 characters",
             ),
@@ -360,7 +380,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               obscure: true,
               errorColor: kLoginErrorColor,
               maxLength: 20,
-              width: MediaQuery.of(context).size.width * 0.3,
+              width: Responsive.isDesktop(context)
+                  ? MediaQuery.of(context).size.width * 0.3
+                  : MediaQuery.of(context).size.width * 0.6,
               hintText: "Password",
               validatorMessage: "Password must be atleast 8 characters long",
             ),
@@ -375,7 +397,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               obscure: true,
               errorColor: kLoginErrorColor,
               maxLength: 20,
-              width: MediaQuery.of(context).size.width * 0.3,
+              width: Responsive.isDesktop(context)
+                  ? MediaQuery.of(context).size.width * 0.3
+                  : MediaQuery.of(context).size.width * 0.6,
               hintText: "Confirm Password",
               validatorMessage: "Passwords do not match",
             ),
