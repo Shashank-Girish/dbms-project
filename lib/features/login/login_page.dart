@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental/core/colors.dart';
 import 'package:vehicle_rental/features/login/widgets/login_widget.dart';
+import 'package:vehicle_rental/features/login/widgets/sign_up_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,6 +12,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  ValueNotifier<String> currentScreen = ValueNotifier("Sign In");
+
+  void navigateTo(String screen) {
+    currentScreen.value = screen;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +30,8 @@ class _LoginPageState extends State<LoginPage> {
                   colors: kLinearGradientColors)),
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.25),
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.25),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -51,9 +59,20 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
-                  const Expanded(
-                    child: LoginWidget()
-                  ),
+                  Expanded(
+                      child: ValueListenableBuilder(
+                          valueListenable: currentScreen,
+                          builder: (BuildContext context, String value, _) {
+                            if (value == "Sign In") {
+                              return LoginWidget(
+                                navigationCallback: navigateTo,
+                              );
+                            } else {
+                              return SignUpWidget(
+                                navigationCallback: navigateTo,
+                              );
+                            }
+                          })),
                 ],
               ),
             ),

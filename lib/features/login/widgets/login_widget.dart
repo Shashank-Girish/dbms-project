@@ -7,7 +7,10 @@ import 'package:vehicle_rental/features/login/error_messages.dart';
 import 'package:vehicle_rental/models/user_model.dart';
 
 class LoginWidget extends StatefulWidget {
-  const LoginWidget({Key? key}) : super(key: key);
+  const LoginWidget({Key? key, required this.navigationCallback})
+      : super(key: key);
+
+  final Function navigationCallback;
 
   @override
   State<LoginWidget> createState() => _LoginWidgetState();
@@ -38,9 +41,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                 return Padding(
                   padding: const EdgeInsets.only(top: 20.0),
                   child: Text(
-                  value,
-                  style: const TextStyle(color: kLoginErrorColor),
-              ),
+                    value,
+                    style: const TextStyle(color: kLoginErrorColor),
+                  ),
                 );
               } else {
                 return Container();
@@ -85,6 +88,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                 child: GestureDetector(
                     onTap: () {
                       // Navigate to Sign Up page
+                      widget.navigationCallback("Sign Up");
                     },
                     child: const Text(
                       "Sign Up!",

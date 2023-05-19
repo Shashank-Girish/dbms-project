@@ -9,7 +9,10 @@ import 'package:vehicle_rental/models/user_model.dart';
 List<String> genders = ["Male", "Female", "Others"];
 
 class SignUpWidget extends StatefulWidget {
-  const SignUpWidget({Key? key}) : super(key: key);
+  const SignUpWidget({Key? key, required this.navigationCallback})
+      : super(key: key);
+
+  final Function navigationCallback;
 
   @override
   State<SignUpWidget> createState() => _SignUpWidgetState();
@@ -80,6 +83,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               child: GestureDetector(
                   onTap: () {
                     // Navigate to Sign In page
+                    widget.navigationCallback("Sign In");
                   },
                   child: const Text(
                     "Sign In!",
