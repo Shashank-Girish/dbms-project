@@ -62,7 +62,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               maxLength: 50,
               width: Responsive.isDesktop(context)
               ? MediaQuery.of(context).size.width * 0.3
-              : MediaQuery.of(context).size.width * 0.6,
+              : MediaQuery.of(context).size.width * 0.8,
               hintText: "Email",
               validatorMessage: "Email ID cannot be empty",
             ),
@@ -79,7 +79,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               maxLength: 20,
               width: Responsive.isDesktop(context)
               ? MediaQuery.of(context).size.width * 0.3
-              : MediaQuery.of(context).size.width * 0.6,
+              : MediaQuery.of(context).size.width * 0.8,
               hintText: "Password",
               validatorMessage: "Password must be atleast 8 characters long",
             ),
@@ -107,7 +107,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               valueListenable: submitted,
               builder: (BuildContext context, bool value, _) {
                 return Padding(
-                  padding: const EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 20, bottom: 16.0),
                   child: SolidTextButton(
                     text: "Sign In",
                     isLoading: value,

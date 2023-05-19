@@ -194,7 +194,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               maxLength: 40,
               width: Responsive.isDesktop(context)
                   ? MediaQuery.of(context).size.width * 0.3
-                  : MediaQuery.of(context).size.width * 0.6,
+                  : MediaQuery.of(context).size.width * 0.8,
               hintText: "Name",
               validatorMessage: "Name cannot be empty",
             ),
@@ -210,7 +210,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               maxLength: 50,
               width: Responsive.isDesktop(context)
                   ? MediaQuery.of(context).size.width * 0.3
-                  : MediaQuery.of(context).size.width * 0.6,
+                  : MediaQuery.of(context).size.width * 0.8,
               hintText: "Email",
               validatorMessage: "Email ID cannot be empty",
             ),
@@ -227,7 +227,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               maxLines: 3,
               width: Responsive.isDesktop(context)
                   ? MediaQuery.of(context).size.width * 0.3
-                  : MediaQuery.of(context).size.width * 0.6,
+                  : MediaQuery.of(context).size.width * 0.8,
               hintText: "Address",
               validatorMessage: "Address cannot be empty",
             ),
@@ -245,7 +245,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               maxLength: 6,
               width: Responsive.isDesktop(context)
                   ? MediaQuery.of(context).size.width * 0.3
-                  : MediaQuery.of(context).size.width * 0.6,
+                  : MediaQuery.of(context).size.width * 0.8,
               hintText: "Zipcode",
               validatorMessage: "Zipcode must be exactly 6 digits",
             ),
@@ -274,7 +274,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               maxLength: 10,
               width: Responsive.isDesktop(context)
                   ? MediaQuery.of(context).size.width * 0.3
-                  : MediaQuery.of(context).size.width * 0.6,
+                  : MediaQuery.of(context).size.width * 0.8,
               hintText: "Phone No",
               validatorMessage: "Phone number must be exactly 10 digits",
             ),
@@ -298,7 +298,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   maxLength: 4,
                   width: Responsive.isDesktop(context)
                       ? MediaQuery.of(context).size.width * 0.12
-                      : MediaQuery.of(context).size.width * 0.24,
+                      : MediaQuery.of(context).size.width * 0.30,
                   hintText: "Age",
                   validatorMessage: "Enter a valid age",
                 ),
@@ -306,12 +306,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   padding: EdgeInsets.only(
                     left: Responsive.isDesktop(context)
                         ? MediaQuery.of(context).size.width * 0.03
-                        : MediaQuery.of(context).size.width * 0.06,
+                        : MediaQuery.of(context).size.width * 0.05,
                   ),
                   child: SizedBox(
                     width: Responsive.isDesktop(context)
                         ? MediaQuery.of(context).size.width * 0.15
-                        : MediaQuery.of(context).size.width * 0.3,
+                        : MediaQuery.of(context).size.width * 0.45,
                     child: ValueListenableBuilder(
                         valueListenable: gender,
                         builder:
@@ -365,7 +365,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               maxLength: 15,
               width: Responsive.isDesktop(context)
                   ? MediaQuery.of(context).size.width * 0.3
-                  : MediaQuery.of(context).size.width * 0.6,
+                  : MediaQuery.of(context).size.width * 0.8,
               hintText: "License ID",
               validatorMessage: "License ID must be exactly 15 characters",
             ),
@@ -382,7 +382,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               maxLength: 20,
               width: Responsive.isDesktop(context)
                   ? MediaQuery.of(context).size.width * 0.3
-                  : MediaQuery.of(context).size.width * 0.6,
+                  : MediaQuery.of(context).size.width * 0.8,
               hintText: "Password",
               validatorMessage: "Password must be atleast 8 characters long",
             ),
@@ -399,7 +399,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               maxLength: 20,
               width: Responsive.isDesktop(context)
                   ? MediaQuery.of(context).size.width * 0.3
-                  : MediaQuery.of(context).size.width * 0.6,
+                  : MediaQuery.of(context).size.width * 0.8,
               hintText: "Confirm Password",
               validatorMessage: "Passwords do not match",
             ),
