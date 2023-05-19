@@ -9,6 +9,7 @@ class InputTextField extends StatelessWidget {
   final String validatorMessage;
   final bool Function(String?) validator;
   final Color errorColor;
+  final bool obscure;
   final double width;
   const InputTextField(
       {Key? key,
@@ -20,7 +21,8 @@ class InputTextField extends StatelessWidget {
       this.keyboardType = TextInputType.text,
       this.validatorMessage = '',
       this.maxLength = 0,
-      this.errorColor = Colors.red})
+      this.errorColor = Colors.red,
+      this.obscure = false})
       : super(key: key);
 
   @override
@@ -35,6 +37,7 @@ class InputTextField extends StatelessWidget {
         textInputAction: TextInputAction.send,
         keyboardType: TextInputType.text,
         maxLines: maxLines,
+        obscureText: obscure,
         decoration: InputDecoration(
           fillColor: Colors.black,
           hintText: hintText,

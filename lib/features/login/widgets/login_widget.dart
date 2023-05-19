@@ -51,6 +51,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               validator: (enteredText) {
                 return enteredText!.trim().length < 8;
               },
+              obscure: true,
               errorColor: kLoginErrorColor,
               maxLength: 20,
               width: MediaQuery.of(context).size.width * 0.3,

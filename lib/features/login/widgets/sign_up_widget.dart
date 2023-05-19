@@ -333,6 +333,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               validator: (enteredText) {
                 return enteredText!.trim().length < 8;
               },
+              obscure: true,
               errorColor: kLoginErrorColor,
               maxLength: 20,
               width: MediaQuery.of(context).size.width * 0.3,
@@ -347,6 +348,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               validator: (enteredText) {
                 return enteredText!.trim() != passwordController.text;
               },
+              obscure: true,
               errorColor: kLoginErrorColor,
               maxLength: 20,
               width: MediaQuery.of(context).size.width * 0.3,
