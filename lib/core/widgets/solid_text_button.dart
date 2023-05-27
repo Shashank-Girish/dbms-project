@@ -4,9 +4,10 @@ import 'package:vehicle_rental/core/colors.dart';
 class SolidTextButton extends StatelessWidget {
   final String text;
   final Function onPressed;
+  final Color? buttonColor;
   final bool isLoading;
 
-  const SolidTextButton({Key? key, required this.text, required this.onPressed, this.isLoading = false})
+  const SolidTextButton({Key? key, required this.text, required this.onPressed, this.isLoading = false, this.buttonColor})
       : super(key: key);
 
   @override
@@ -14,7 +15,7 @@ class SolidTextButton extends StatelessWidget {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor:
-            MaterialStateProperty.all<Color>(kLinearGradientColors[0]),
+            MaterialStateProperty.all<Color>(buttonColor ?? kLinearGradientColors[0]),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
