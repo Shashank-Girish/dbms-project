@@ -4,6 +4,7 @@ import 'package:vehicle_rental/core/colors.dart';
 import 'package:vehicle_rental/core/widgets/input_text_field.dart';
 import 'package:vehicle_rental/core/widgets/responsive.dart';
 import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
+import 'package:vehicle_rental/features/dashboard/dashboard_page.dart';
 import 'package:vehicle_rental/features/login/error_messages.dart';
 import 'package:vehicle_rental/models/user_model.dart';
 
@@ -122,8 +123,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           return;
                         }
 
-                        Map<String, dynamic> response =
-                            await UserRemoteDatasource().signUp(User(
+                        UserRemoteDatasource()
+                            .signUp(User(
                           name: nameController.text,
                           emailId: emailController.text,
                           phoneNumber: phoneController.text,
@@ -133,14 +134,19 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           password: passwordController.text,
                           gender: gender.value![0],
                           age: int.parse(ageController.text),
-                        ));
-
-                        if (response["success"] == true) {
-                          errorMessage.value = response["data"].name;
-                        } else {
-                          errorMessage.value =
-                              handleErrorMessage(response["error"]);
-                        }
+                        ))
+                            .then((Map<String, dynamic> response) {
+                          if (response["success"] == true) {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DashboardPage(user: response["data"])));
+                            errorMessage.value = response["data"].name;
+                          } else {
+                            errorMessage.value =
+                                handleErrorMessage(response["error"]);
+                          }
+                        });
 
                         submitted.value = false;
                       }, asynchronous: true)
