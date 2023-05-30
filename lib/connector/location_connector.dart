@@ -39,32 +39,46 @@ class LocationRemoteDatasource {
     print(response.body);
   }
 
-  static Future<Map<String, dynamic>> getAllLocations() async{
+  static Future<Map<String, dynamic>> getAllLocations() async {
     try {
-      var uri = Uri.https(
-          "dbsvehiclerentalsystem.000webhostapp.com", '/locations/get_all_locations.php');
+      var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
+          '/locations/get_all_locations.php');
 
       var response = await http.post(uri);
       var body = json.decode(response.body);
 
-      if(body["success"] == true) {
+      if (body["success"] == true) {
         return {
           "success": true,
           "data": body["data"].map((e) => Location.fromJson(e)).toList()
         };
+      } else {
+        return {"success": false, "error": body["error"]};
       }
-      else {
-        return {
-          "success": false,
-          "error": body["error"]
-        };
-      }
+    } catch (e) {
+      return {"success": false, "error": kSomethingWentWrongMessage};
     }
-    catch(e) {
-      return {
-        "success": false,
-        "error": kSomethingWentWrongMessage
-      };
+  }
+
+  static Future<Map<String, dynamic>> getLocationDetails(
+      String locationName) async {
+    try {
+      var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
+          'locations/location_details.php', {"location_name": locationName});
+
+      var response = await http.post(uri);
+      var body = json.decode(response.body);
+
+      if (body["success"] == true) {
+        return {
+          "success": true,
+          "data": Location.fromJson(body["data"])
+        };
+      } else {
+        return {"success": false, "error": body["error"]};
+      }
+    } catch (e) {
+      return {"success": false, "error": kSomethingWentWrongMessage};
     }
   }
 }

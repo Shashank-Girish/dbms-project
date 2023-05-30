@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:vehicle_rental/core/widgets/messages.dart';
 import 'dart:convert';
 import '../models/vehicle_type_model.dart';
 
@@ -12,19 +13,30 @@ class VehicleTypeRemoteDatasource {
     print(response.body);
   }
 
-  Future<List<VehicleType>> getVehicleDetails() {
-    var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
-        '/vehicletypedetails/get_vehicle_details.php');
-    print(uri.toString());
-    return http.get(uri).then((response) {
-      var val = json.decode(response.body);
-      print(val['data'][0]);
-      List<VehicleType> type = [];
-      for (var i = 0; i < val['data'].length; i++) {
-        type.add(VehicleType.fromJson(val['data'][i]));
+  static Future<Map<String, dynamic>> getVehiclesDetails(
+      List<int> vehicleTypeIds) async {
+    try {
+      List<VehicleType> details = [];
+      for (final id in vehicleTypeIds) {
+        var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
+            '/vehicletypedetails/get_vehicle_details.php', {
+          "vtypeid": id.toString(),
+        });
+
+        var response = await http.get(uri);
+        var body = json.decode(response.body);
+        if (body["success"] == true) {
+          details.add(VehicleType.fromJson(body["data"]));
+        } else {
+          return {"success": false, "error": body["error"]};
+        }
       }
-      return type;
-    });
+
+      return {"success": true, "data": details};
+
+    } catch (e) {
+      return {"success": false, "error": kSomethingWentWrongMessage};
+    }
   }
 
   Future<void> deleteVehicleTypeDetails(String vdid) async {
