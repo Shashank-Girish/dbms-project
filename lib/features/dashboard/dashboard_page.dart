@@ -171,12 +171,14 @@ class _DashboardPageState extends State<DashboardPage> {
         Positioned(
           top: 0,
           right: MediaQuery.of(context).size.width * 0.0,
-          child: SizedBox(
-            height: 600,
-            width: 600,
-            child: Image.asset(
-              "assets/car_model.png",
-              fit: BoxFit.fill,
+          child: IgnorePointer(
+            child: SizedBox(
+              height: 600,
+              width: 600,
+              child: Image.asset(
+                "assets/car_model.png",
+                fit: BoxFit.fill,
+              ),
             ),
           ),
         )
