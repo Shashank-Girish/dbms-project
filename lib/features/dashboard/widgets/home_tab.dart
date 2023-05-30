@@ -202,7 +202,9 @@ class _HomeTabState extends State<HomeTab> {
                         SolidTextButton(
                           text: "Search Rentals",
                           buttonColor: kBlueButtonColor,
-                          onPressed: () {},
+                          onPressed: () {
+                            if(!validateDetails()) return;
+                          },
                         ),
                       ],
                     ),
@@ -315,5 +317,61 @@ class _HomeTabState extends State<HomeTab> {
       firstDate: DateTime.now(),
       lastDate: DateTime(2030),
     );
+  }
+
+  void showAlertDialog(BuildContext context, String message) {
+    showCupertinoDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: const Text(
+              "Invalid Details",
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+            content: Text(
+              message,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          );
+        });
+  }
+
+  bool validateDetails() {
+    if (selectedLocations[0].value == null) {
+      showAlertDialog(context, "Please choose a Pick Up Location");
+      return false;
+    }
+
+    if (selectedLocations[1].value == null) {
+      showAlertDialog(context, "Please choose a Drop Off Location");
+      return false;
+    }
+
+    if (selectedLocations[0].value == selectedLocations[1].value) {
+      showAlertDialog(context, "Please choose distinct locations");
+      return false;
+    }
+
+    if (selectedDate[0].value == null) {
+      showAlertDialog(context, "Please choose a Pick Up Date");
+      return false;
+    }
+
+    if (selectedDate[1].value == null) {
+      showAlertDialog(context, "Please choose a Drop Off Date");
+      return false;
+    }
+
+    if (selectedDate[0].value!.isAfter(selectedDate[1].value!)) {
+      showAlertDialog(context, "Drop Off Date cannot be before Pick Up Date");
+      return false;
+    }
+
+    return true;
   }
 }
