@@ -6,6 +6,7 @@ import 'package:vehicle_rental/core/colors.dart';
 import 'package:vehicle_rental/core/widgets/messages.dart';
 import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
 import 'package:vehicle_rental/core/widgets/tab_button.dart';
+import 'package:vehicle_rental/features/rent_vehicle/view_vehicles.dart';
 import 'package:vehicle_rental/models/location_model.dart';
 
 class HomeTab extends StatefulWidget {
@@ -203,7 +204,20 @@ class _HomeTabState extends State<HomeTab> {
                           text: "Search Rentals",
                           buttonColor: kBlueButtonColor,
                           onPressed: () {
-                            if(!validateDetails()) return;
+                            if (!validateDetails()) return;
+
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ViewVehicles(
+                                filters: {
+                                  "start_location": selectedLocations[0].value!,
+                                  "end_location": selectedLocations[1].value!,
+                                  "start_date": selectedDate[0].value!,
+                                  "end_date": selectedDate[1].value!,
+                                  "type":
+                                      selectedTab.value == 0 ? "Car" : "Bike",
+                                },
+                              ),
+                            ));
                           },
                         ),
                       ],
