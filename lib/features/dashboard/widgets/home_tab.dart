@@ -21,7 +21,10 @@ class _HomeTabState extends State<HomeTab> {
     ValueNotifier(null),
     ValueNotifier(null)
   ];
-  ValueNotifier<DateTime?> selectedDate = ValueNotifier(null);
+  List<ValueNotifier<DateTime?>> selectedDate = [
+    ValueNotifier(null),
+    ValueNotifier(null)
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +178,7 @@ class _HomeTabState extends State<HomeTab> {
                             }),
                         const Spacer(),
                         ValueListenableBuilder(
-                            valueListenable: selectedDate,
+                            valueListenable: selectedDate[0],
                             builder:
                                 (BuildContext context, DateTime? value, _) {
                               return markerWidget(
@@ -183,6 +186,17 @@ class _HomeTabState extends State<HomeTab> {
                                   value?.toString().split(" ")[0],
                                   Icons.date_range_outlined,
                                   2);
+                            }),
+                        const Spacer(),
+                        ValueListenableBuilder(
+                            valueListenable: selectedDate[1],
+                            builder:
+                                (BuildContext context, DateTime? value, _) {
+                              return markerWidget(
+                                  "Drop Off Date",
+                                  value?.toString().split(" ")[0],
+                                  Icons.date_range_outlined,
+                                  3);
                             }),
                         const Spacer(),
                         SolidTextButton(
@@ -212,8 +226,8 @@ class _HomeTabState extends State<HomeTab> {
           onTap: () {
             if (index == 0 || index == 1) {
               showLocationDialog(context, index);
-            } else if (index == 2) {
-              showCalenderDialog(context);
+            } else if (index == 2 || index == 3) {
+              showCalenderDialog(context, index % 2);
             }
           },
           child: MouseRegion(
@@ -294,11 +308,11 @@ class _HomeTabState extends State<HomeTab> {
         });
   }
 
-  void showCalenderDialog(BuildContext context) async {
-    selectedDate.value = await showDatePicker(
+  void showCalenderDialog(BuildContext context, int dateIndex) async {
+    selectedDate[dateIndex].value = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2023),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2030),
     );
   }
