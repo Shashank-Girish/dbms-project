@@ -257,6 +257,10 @@ class _DashboardPageState extends State<DashboardPage> {
                         const Spacer(),
                         markerWidget("Pick Up Date", Icons.date_range_outlined),
                         const Spacer(),
+                        if(value == 0) ...{
+                          markerWidget("Number of Seats", Icons.car_rental_outlined),
+                          const Spacer(),
+                        },
                         SolidTextButton(
                           text: "Search Rentals",
                           buttonColor: kBlueButtonColor,
@@ -286,7 +290,7 @@ class _DashboardPageState extends State<DashboardPage> {
               icon,
               color: Colors.black,
             ),
-            Text("Location", style: TextStyle(color: Colors.grey[800]))
+            Text(label.split(" ").last, style: TextStyle(color: Colors.grey[800]))
           ],
         )
       ],
