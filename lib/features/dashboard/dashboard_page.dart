@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental/core/colors.dart';
+import 'package:vehicle_rental/features/dashboard/about_us.dart';
 import 'package:vehicle_rental/features/dashboard/widgets/home_tab.dart';
+import 'package:vehicle_rental/features/dashboard/widgets/profile.dart';
 import 'package:vehicle_rental/features/dashboard/widgets/services_tab.dart';
 import 'package:vehicle_rental/models/user_model.dart';
 
@@ -94,6 +96,7 @@ class _DashboardPageState extends State<DashboardPage> {
             children: const [
               HomeTab(),
               ServicesTab(),
+              AboutUs(),
             ],
           ),
         ),

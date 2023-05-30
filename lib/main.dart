@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental/core/colors.dart';
+import 'package:vehicle_rental/features/dashboard/about_us.dart';
+import 'package:vehicle_rental/features/dashboard/dashboard_page.dart';
 import 'package:vehicle_rental/features/login/login_page.dart';
+import 'package:vehicle_rental/models/user_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: kBackgroundColor
       ),
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      home:  DashboardPage(user: User(),),
     );
   }
 }
