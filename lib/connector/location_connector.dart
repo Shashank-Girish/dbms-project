@@ -61,10 +61,10 @@ class LocationRemoteDatasource {
   }
 
   static Future<Map<String, dynamic>> getLocationDetails(
-      String locationName) async {
+      {String? locationName, int? id}) async {
     try {
       var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
-          'locations/location_details.php', {"location_name": locationName});
+          'locations/location_details.php', {"location_name": locationName, "id": id.toString()});
 
       var response = await http.post(uri);
       var body = json.decode(response.body);

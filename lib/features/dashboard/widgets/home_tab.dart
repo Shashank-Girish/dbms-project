@@ -8,6 +8,7 @@ import 'package:vehicle_rental/core/widgets/input_text_field.dart';
 import 'package:vehicle_rental/core/widgets/messages.dart';
 import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
 import 'package:vehicle_rental/core/widgets/tab_button.dart';
+import 'package:vehicle_rental/features/rent_vehicle/rental_history.dart';
 import 'package:vehicle_rental/features/rent_vehicle/view_vehicles.dart';
 import 'package:vehicle_rental/models/location_model.dart';
 import 'package:vehicle_rental/models/user_model.dart';
@@ -375,7 +376,7 @@ class _HomeTabState extends State<HomeTab> {
                                   });
                                 },
                                 title: Text(
-                                  snapshot.data!["data"][i].name,
+                                  snapshot.data!["data"][i].address,
                                   style: const TextStyle(fontSize: 18),
                                 ),
                               )

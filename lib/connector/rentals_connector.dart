@@ -25,16 +25,25 @@ class RentalsRemoteDatasource{
     }
   }
 
-  Future<Rental> userRentalInfo(int uid){
-    var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
+  static Future<Map<String, dynamic>> userRentalInfo(int uid) async{
+    try {
+      var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
         '/rentals/user_rental_info.php', {'uid': uid.toString()});
-    print(uri.toString());
-    return http.get(uri).then((response) {
-      var val = json.decode(response.body);
-      print(val['data'][0]);
-      Rental rental = Rental.fromJson(val['data'][0]);
-      return rental;
-    });
+
+      var response = await http.get(uri);
+      var body = json.decode(response.body);
+
+      if (body["success"] == true) {
+        return {
+          "success": true,
+          "data": body["data"].map((e) => Rental.fromJson(e)).toList()
+        };
+      } else {
+        return {"success": false, "error": body["error"]};
+      }
+    } catch (e) {
+      return {"success": false, "error": kSomethingWentWrongMessage};
+    }
   }
 
   Future<List<Rental>> getRentalDetails() {

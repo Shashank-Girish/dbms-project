@@ -31,9 +31,9 @@ class _ViewVehiclesState extends State<ViewVehicles> {
     filteredVehiclesFuture =
         VehicleRemoteDatasource.getFilteredVehicles(widget.filters);
     startLocationDetailsFuture = LocationRemoteDatasource.getLocationDetails(
-        widget.filters["start_location"]);
+      locationName: widget.filters["start_location"]);
     endLocationDetailsFuture = LocationRemoteDatasource.getLocationDetails(
-        widget.filters["end_location"]);
+        locationName: widget.filters["end_location"]);
   }
 
   @override
