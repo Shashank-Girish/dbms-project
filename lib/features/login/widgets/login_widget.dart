@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental/connector/user_connector.dart';
 import 'package:vehicle_rental/core/colors.dart';
+import 'package:vehicle_rental/core/password_hasher.dart';
 import 'package:vehicle_rental/core/widgets/input_text_field.dart';
 import 'package:vehicle_rental/core/widgets/responsive.dart';
 import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
@@ -124,7 +125,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       UserRemoteDatasource()
                           .signIn(User(
                               emailId: emailController.text,
-                              password: passwordController.text))
+                              password: encryptPassword(passwordController.text)))
                           .then((Map<String, dynamic> response) {
                         if (response["success"] == true) {
                           Navigator.of(context).pushReplacement(

@@ -100,10 +100,12 @@ class _ViewVehiclesState extends State<ViewVehicles> {
                     ),
                   ),
                   vehicles.isEmpty
-                      ? const Expanded(
+                      ? Expanded(
                           child: Center(
                               child: Text(
-                            kNoCarsAtLocation,
+                                widget.filters["type"].contains("Car")
+                            ? kNoCarsAtLocation
+                            : kNoBikesAtLocation,
                             style: TextStyle(fontSize: 20),
                           )),
                         )
@@ -121,8 +123,10 @@ class _ViewVehiclesState extends State<ViewVehicles> {
 
                             if (nextSnapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
+                              return const Expanded(
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                               );
                             }
                             return Padding(
@@ -140,6 +144,10 @@ class _ViewVehiclesState extends State<ViewVehicles> {
                                           vehicle: vehicles[i],
                                           vehicleDetails:
                                               nextSnapshot.data!["data"][i],
+                                          userId: widget.filters["user"],
+                                          startLocationId: snapshot.data![1]["data"].id,
+                                          endLocationId: snapshot.data![2]["data"].id,
+                                          numDays: (widget.filters["end_date"] as DateTime).difference(widget.filters["start_date"]).inDays + 1,
                                           distance: distance!),
                                     }
                                   ]),

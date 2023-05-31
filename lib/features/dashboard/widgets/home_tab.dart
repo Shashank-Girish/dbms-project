@@ -10,9 +10,12 @@ import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
 import 'package:vehicle_rental/core/widgets/tab_button.dart';
 import 'package:vehicle_rental/features/rent_vehicle/view_vehicles.dart';
 import 'package:vehicle_rental/models/location_model.dart';
+import 'package:vehicle_rental/models/user_model.dart';
 
 class HomeTab extends StatefulWidget {
-  const HomeTab({Key? key}) : super(key: key);
+  const HomeTab({Key? key, required this.user}) : super(key: key);
+
+  final User user;
 
   @override
   State<HomeTab> createState() => _HomeTabState();
@@ -271,6 +274,7 @@ class _HomeTabState extends State<HomeTab> {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ViewVehicles(
                                 filters: {
+                                  "user": widget.user.id,
                                   "start_location": selectedLocations[0].value!,
                                   "end_location": selectedLocations[1].value!,
                                   "start_date": selectedDate[0].value!,

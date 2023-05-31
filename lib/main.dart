@@ -18,10 +18,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Motor 4 Road',
-      theme:
-          ThemeData.dark().copyWith(scaffoldBackgroundColor: kBackgroundColor),
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: kBackgroundColor
+      ),
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: const LoginPage()
     );
   }
 }

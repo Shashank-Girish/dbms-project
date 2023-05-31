@@ -100,11 +100,11 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               HomeTab(
                 key: key[0],
-              ),
-              ServicesTab(
+              user: widget.user),
+              const ServicesTab(
                 key: key[1],
               ),
-              AboutUs(
+              const AboutUs(
                 key: key[2],
               ),
               UserProfileWidget(
