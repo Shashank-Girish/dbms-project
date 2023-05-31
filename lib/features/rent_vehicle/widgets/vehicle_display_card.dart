@@ -233,7 +233,7 @@ class _VehicleDisplayCardState extends State<VehicleDisplayCard> {
                             return value != null
                                 ? Center(
                                     child: Text(
-                                      value!,
+                                      value,
                                       style: const TextStyle(color: Colors.red),
                                     ),
                                   )
