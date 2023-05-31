@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental/connector/user_connector.dart';
 import 'package:vehicle_rental/core/colors.dart';
+import 'package:vehicle_rental/core/password_hasher.dart';
 import 'package:vehicle_rental/core/widgets/input_text_field.dart';
 import 'package:vehicle_rental/core/widgets/responsive.dart';
 import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
@@ -131,7 +132,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           address: addressController.text,
                           zipcode: zipcodeController.text,
                           licenseId: licenseController.text,
-                          password: passwordController.text,
+                          password: encryptPassword(passwordController.text),
                           gender: gender.value![0],
                           age: int.parse(ageController.text),
                         ))

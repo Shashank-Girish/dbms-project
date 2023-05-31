@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental/core/colors.dart';
-import 'package:vehicle_rental/features/dashboard/about_us.dart';
 import 'package:vehicle_rental/features/dashboard/dashboard_page.dart';
 import 'package:vehicle_rental/features/login/login_page.dart';
+import 'package:vehicle_rental/features/rent_vehicle/view_vehicles.dart';
 import 'package:vehicle_rental/models/user_model.dart';
+
+User user = User(
+  id: 37,
+  name: "Anirudh V Gubbi",
+  phoneNumber: "9123456780",
+  age: 20,
+  gender: "M",
+  emailId: "anirudhvgubbi@gmail.com",
+  address: "NITK, Surathkal",
+  zipcode: "565725",
+  licenseId: "KA15SCAMFAKE100",
+  password: "dbmsftw!123",
+);
 
 void main() {
   runApp(const MyApp());
 }
-
-User user = User(
-  id: 1,
-  name: 'John Doe',
-  phoneNumber: '1234567890',
-  age: 25,
-  gender: 'Male',
-  emailId: 'johndoe@example.com',
-  address: '123 Main Street',
-  zipcode: '12345',
-  licenseId: 'ABC123',
-  password: 'password123',
-);
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme:
           ThemeData.dark().copyWith(scaffoldBackgroundColor: kBackgroundColor),
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: DashboardPage(user: user,)
     );
   }
 }
