@@ -6,7 +6,7 @@ import 'package:vehicle_rental/models/user_model.dart';
 class UserProfileWidget extends StatefulWidget {
   final User user;
 
-  UserProfileWidget({required this.user});
+  UserProfileWidget({required this.user, Key? key}) : super(key: key);
 
   @override
   _UserProfileWidgetState createState() => _UserProfileWidgetState();

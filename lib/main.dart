@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental/core/colors.dart';
-import 'package:vehicle_rental/features/dashboard/about_us.dart';
+import 'package:vehicle_rental/features/dashboard/widgets/about_us.dart';
 import 'package:vehicle_rental/features/dashboard/dashboard_page.dart';
 import 'package:vehicle_rental/features/login/login_page.dart';
 import 'package:vehicle_rental/models/user_model.dart';
@@ -9,18 +9,6 @@ void main() {
   runApp(const MyApp());
 }
 
-User user = User(
-  id: 1,
-  name: 'John Doe',
-  phoneNumber: '1234567890',
-  age: 25,
-  gender: 'Male',
-  emailId: 'johndoe@example.com',
-  address: '123 Main Street',
-  zipcode: '12345',
-  licenseId: 'ABC123',
-  password: 'password123',
-);
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

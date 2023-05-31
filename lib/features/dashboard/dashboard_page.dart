@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_rental/core/colors.dart';
-import 'package:vehicle_rental/features/dashboard/about_us.dart';
+import 'package:vehicle_rental/features/dashboard/widgets/about_us.dart';
 import 'package:vehicle_rental/features/dashboard/widgets/home_tab.dart';
 import 'package:vehicle_rental/features/dashboard/widgets/profile.dart';
 import 'package:vehicle_rental/features/dashboard/widgets/services_tab.dart';
@@ -8,6 +8,7 @@ import 'package:vehicle_rental/features/login/login_page.dart';
 import 'package:vehicle_rental/models/user_model.dart';
 
 const tabs = ["Home", "Services", "About Us", "Profile"];
+var key = [GlobalKey(), GlobalKey(), GlobalKey(), GlobalKey()];
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key, required this.user}) : super(key: key);
@@ -75,6 +76,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     onTap: () {
                       indicatorIndex.value = i;
                       selectedIndex.value = i;
+                      Scrollable.ensureVisible(key[i].currentContext!);
                     },
                     onHover: (value) {
                       if (value) {
@@ -96,10 +98,19 @@ class _DashboardPageState extends State<DashboardPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              HomeTab(),
-              ServicesTab(),
-              AboutUs(),
-              UserProfileWidget(user: widget.user),
+              HomeTab(
+                key: key[0],
+              ),
+              ServicesTab(
+                key: key[1],
+              ),
+              AboutUs(
+                key: key[2],
+              ),
+              UserProfileWidget(
+                user: widget.user,
+                key: key[3],
+              ),
             ],
           ),
         ),
@@ -130,7 +141,8 @@ class _LogOutState extends State<LogOut> {
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => LoginPage()));
           },
           child: const Text("Yes"),
         ),

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:http/retry.dart';
 import 'package:vehicle_rental/connector/location_connector.dart';
 import 'package:vehicle_rental/core/colors.dart';
+import 'package:vehicle_rental/core/widgets/input_text_field.dart';
 import 'package:vehicle_rental/core/widgets/messages.dart';
 import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
 import 'package:vehicle_rental/core/widgets/tab_button.dart';
@@ -60,7 +62,67 @@ class _HomeTabState extends State<HomeTab> {
                           child: SolidTextButton(
                             text: "Leave us a Review",
                             buttonColor: kBlueButtonColor,
-                            onPressed: () {},
+                            onPressed: () {
+                              var review = TextEditingController();
+                              var alert = StatefulBuilder(
+                                  builder: ((context, setState) {
+                                return AlertDialog(
+                                  title: const Text("Leave a Review"),
+                                  content: SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.3,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.3,
+                                    child: Column(
+                                      children: [
+                                        InputTextField(
+                                          maxLines: 9,
+                                          maxLength: 256,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
+                                          textEditingController: review,
+                                          validator: (value) {
+                                            return (value == null ||
+                                                value.isEmpty);
+                                          },
+                                          hintText: "Enter your review here",
+                                          validatorMessage:
+                                              "Please enter a review",
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        SolidTextButton(
+                                          text: "Submit",
+                                          buttonColor: kBlueButtonColor,
+                                          onPressed: () {
+                                            if (review.text.isNotEmpty) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: const Text(
+                                                          "Review Submitted")));
+                                              Navigator.pop(context);
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content: const Text(
+                                                          "Please enter a review")));
+                                            }
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }));
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return alert;
+                                  });
+                            },
                           ),
                         )
                       ],
