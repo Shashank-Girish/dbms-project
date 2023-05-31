@@ -100,10 +100,12 @@ class _ViewVehiclesState extends State<ViewVehicles> {
                     ),
                   ),
                   vehicles.isEmpty
-                      ? const Expanded(
+                      ? Expanded(
                           child: Center(
                               child: Text(
-                            kNoCarsAtLocation,
+                                widget.filters["type"].contains("Car")
+                            ? kNoCarsAtLocation
+                            : kNoBikesAtLocation,
                             style: TextStyle(fontSize: 20),
                           )),
                         )

@@ -69,7 +69,7 @@ class VehicleRemoteDatasource {
       var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
           '/vehicle/get_filtered_vehicles.php', {
         'start_location': filters["start_location"],
-        'type': filters["type"],
+        'type': (filters["type"] as String).toLowerCase(),
       });
 
       var response = await http.get(uri);
