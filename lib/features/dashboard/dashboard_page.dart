@@ -4,9 +4,10 @@ import 'package:vehicle_rental/features/dashboard/about_us.dart';
 import 'package:vehicle_rental/features/dashboard/widgets/home_tab.dart';
 import 'package:vehicle_rental/features/dashboard/widgets/profile.dart';
 import 'package:vehicle_rental/features/dashboard/widgets/services_tab.dart';
+import 'package:vehicle_rental/features/login/login_page.dart';
 import 'package:vehicle_rental/models/user_model.dart';
 
-const tabs = ["Home", "Services", "About Us", "Log Out"];
+const tabs = ["Home", "Services", "About Us", "Profile"];
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key, required this.user}) : super(key: key);
@@ -83,7 +84,8 @@ class _DashboardPageState extends State<DashboardPage> {
                       }
                     },
                   )
-                }
+                },
+                LogOut()
               ],
             )
           ],
@@ -97,10 +99,53 @@ class _DashboardPageState extends State<DashboardPage> {
               HomeTab(),
               ServicesTab(),
               AboutUs(),
-              UserProfileWidget(user: widget.user)
+              UserProfileWidget(user: widget.user),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class LogOut extends StatefulWidget {
+  const LogOut({Key? key}) : super(key: key);
+
+  @override
+  State<LogOut> createState() => _LogOutState();
+}
+
+class _LogOutState extends State<LogOut> {
+  @override
+  Widget build(BuildContext context) {
+    var alert = AlertDialog(
+      title: const Text("Log Out"),
+      content: const Text("Are you sure you want to log out?"),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text("No"),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
+          },
+          child: const Text("Yes"),
+        ),
+      ],
+    );
+    return Container(
+      child: ElevatedButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return alert;
+              });
+        },
+        child: const Text("Log Out"),
       ),
     );
   }
