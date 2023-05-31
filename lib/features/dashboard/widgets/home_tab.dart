@@ -61,7 +61,9 @@ class _HomeTabState extends State<HomeTab> {
                             ),
                           ),
                         ),
-                        Padding(
+                        Row(
+                          children: [
+                            Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
                           child: SolidTextButton(
                             text: "Leave us a Review",
@@ -128,7 +130,22 @@ class _HomeTabState extends State<HomeTab> {
                                   });
                             },
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0, left: 16.0),
+                          child: SolidTextButton(
+                            text: "View Rental History",
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => RentalHistory(userId: widget.user.id!))
+                              );
+                            },
+                            buttonColor: kBlueButtonColor,
+                          ),
                         )
+                          ],
+                        ),
+                        
                       ],
                     ),
                     SizedBox(
