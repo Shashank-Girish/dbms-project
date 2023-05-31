@@ -93,10 +93,11 @@ class _DashboardPageState extends State<DashboardPage> {
         height: double.maxFinite,
         child: SingleChildScrollView(
           child: Column(
-            children: const [
+            children: [
               HomeTab(),
               ServicesTab(),
               AboutUs(),
+              UserProfileWidget(user: widget.user)
             ],
           ),
         ),

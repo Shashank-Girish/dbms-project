@@ -9,6 +9,19 @@ void main() {
   runApp(const MyApp());
 }
 
+User user = User(
+  id: 1,
+  name: 'John Doe',
+  phoneNumber: '1234567890',
+  age: 25,
+  gender: 'Male',
+  emailId: 'johndoe@example.com',
+  address: '123 Main Street',
+  zipcode: '12345',
+  licenseId: 'ABC123',
+  password: 'password123',
+);
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -17,11 +30,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Motor 4 Road',
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: kBackgroundColor
-      ),
+      theme:
+          ThemeData.dark().copyWith(scaffoldBackgroundColor: kBackgroundColor),
       debugShowCheckedModeBanner: false,
-      home:  DashboardPage(user: User(),),
+      home: LoginPage(),
     );
   }
 }
