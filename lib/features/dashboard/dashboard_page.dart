@@ -8,7 +8,7 @@ import 'package:vehicle_rental/features/login/login_page.dart';
 import 'package:vehicle_rental/models/user_model.dart';
 
 const tabs = ["Home", "Services", "About Us", "Profile"];
-var key = [GlobalKey(), GlobalKey(), GlobalKey(), GlobalKey()];
+var keys = [GlobalKey(), GlobalKey(), GlobalKey(), GlobalKey()];
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key, required this.user}) : super(key: key);
@@ -76,7 +76,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     onTap: () {
                       indicatorIndex.value = i;
                       selectedIndex.value = i;
-                      Scrollable.ensureVisible(key[i].currentContext!);
+                      Scrollable.ensureVisible(keys[i].currentContext!);
                     },
                     onHover: (value) {
                       if (value) {
@@ -99,17 +99,17 @@ class _DashboardPageState extends State<DashboardPage> {
           child: Column(
             children: [
               HomeTab(
-                key: key[0],
-              user: widget.user),
-              const ServicesTab(
-                key: key[1],
+                key: keys[0],
               ),
-              const AboutUs(
-                key: key[2],
+              ServicesTab(
+                key: keys[1],
+              ),
+              AboutUs(
+                key: keys[2],
               ),
               UserProfileWidget(
                 user: widget.user,
-                key: key[3],
+                key: keys[3],
               ),
             ],
           ),
