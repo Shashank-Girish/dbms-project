@@ -1,15 +1,28 @@
 import 'package:http/http.dart' as http;
+import 'package:vehicle_rental/core/widgets/messages.dart';
 import 'dart:convert';
 import '../models/rentals_model.dart';
 
 class RentalsRemoteDatasource{
-  Future<void> createRental(Rental rental) async {
-    var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
+  static Future<Map<String, dynamic>> createRental(Rental rental) async {
+    try {
+      var uri = Uri.https("dbsvehiclerentalsystem.000webhostapp.com",
         '/rentals/create_rental.php');
-    var val = rental.toJson();
-    print(val);
-    var response = await http.post(uri, body: json.encode(val));
-    print(response.body);
+
+      var val = rental.toJson();
+      var response = await http.post(uri, body: json.encode(val));
+      var body = json.decode(response.body);
+
+      if (body["success"] == true) {
+        return {
+          "success": true,
+        };
+      } else {
+        return {"success": false, "error": body["error"]};
+      }
+    } catch (e) {
+      return {"success": false, "error": kSomethingWentWrongMessage};
+    }
   }
 
   Future<Rental> userRentalInfo(int uid){

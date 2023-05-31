@@ -96,9 +96,9 @@ class _DashboardPageState extends State<DashboardPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              HomeTab(),
-              ServicesTab(),
-              AboutUs(),
+              HomeTab(user: widget.user),
+              const ServicesTab(),
+              const AboutUs(),
               UserProfileWidget(user: widget.user),
             ],
           ),

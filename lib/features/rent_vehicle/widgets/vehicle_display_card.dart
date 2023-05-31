@@ -1,25 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:vehicle_rental/connector/rentals_connector.dart';
 import 'package:vehicle_rental/core/colors.dart';
 import 'package:vehicle_rental/core/widgets/fake_ui.dart'
     if (dart.library.html) 'package:vehicle_rental/core/widgets/real_ui.dart'
     as ui;
+import 'package:vehicle_rental/core/widgets/messages.dart';
 import 'package:vehicle_rental/core/widgets/solid_text_button.dart';
+import 'package:vehicle_rental/models/location_model.dart';
+import 'package:vehicle_rental/models/rentals_model.dart';
+import 'package:vehicle_rental/models/user_model.dart';
 import 'dart:html';
 import 'package:vehicle_rental/models/vehicle_model.dart';
 import 'package:vehicle_rental/models/vehicle_type_model.dart';
 
-class VehicleDisplayCard extends StatelessWidget {
-  VehicleDisplayCard(
-      {Key? key,
-      required this.vehicle,
-      required this.vehicleDetails,
-      required this.distance})
-      : super(key: key);
+class VehicleDisplayCard extends StatefulWidget {
+  VehicleDisplayCard({
+    Key? key,
+    required this.vehicle,
+    required this.vehicleDetails,
+    required this.distance,
+    required this.userId,
+    required this.startLocationId,
+    required this.endLocationId,
+    required this.numDays,
+  }) : super(key: key);
 
   final Vehicle vehicle;
   final VehicleType vehicleDetails;
+  final int userId;
+  final int startLocationId;
+  final int endLocationId;
+  final int numDays;
   final double distance;
+
+  @override
+  State<VehicleDisplayCard> createState() => _VehicleDisplayCardState();
+}
+
+class _VehicleDisplayCardState extends State<VehicleDisplayCard> {
+  final ValueNotifier<String?> errorMessage = ValueNotifier(null);
+  final ValueNotifier<bool> submitting = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +79,7 @@ class VehicleDisplayCard extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(5.0)),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8.0, vertical: 4.0),
-                            child: Text(vehicle.vehicleStatus!,
+                            child: Text(widget.vehicle.vehicleStatus!,
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500)),
@@ -67,7 +88,7 @@ class VehicleDisplayCard extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: Text(
-                            vehicleDetails.name!,
+                            widget.vehicleDetails.name!,
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -80,7 +101,7 @@ class VehicleDisplayCard extends StatelessWidget {
                         Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Text(
-                              "₹ ${(vehicleDetails.price! * distance).toInt()}",
+                              "₹ ${(widget.vehicleDetails.price! * widget.distance).toInt()}",
                               style:
                                   const TextStyle(fontWeight: FontWeight.w700),
                             ))
@@ -96,12 +117,12 @@ class VehicleDisplayCard extends StatelessWidget {
 
   Widget image() {
     ui.platformViewRegistry.registerViewFactory(
-      vehicle.imgUrl!,
-      (int _) => ImageElement()..src = vehicle.imgUrl,
+      widget.vehicle.imgUrl!,
+      (int _) => ImageElement()..src = widget.vehicle.imgUrl,
     );
 
     return HtmlElementView(
-      viewType: vehicle.imgUrl!,
+      viewType: widget.vehicle.imgUrl!,
     );
   }
 
@@ -137,7 +158,7 @@ class VehicleDisplayCard extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
                         child: Center(
                           child: Text(
-                            "${vehicleDetails.name!} - ${vehicleDetails.model!}",
+                            "${widget.vehicleDetails.name!} - ${widget.vehicleDetails.model!}",
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
@@ -148,32 +169,76 @@ class VehicleDisplayCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            titleCard("Mileage",
-                                vehicleDetails.mileage!.toString() + " Km/L"),
                             titleCard(
-                                "    Age   ", vehicle.age!.toString() + " Yrs"),
-                            titleCard("Run",
-                                vehicle.odometerReading!.toString() + " Kms")
+                                "Mileage",
+                                widget.vehicleDetails.mileage!.toString() +
+                                    " Km/L"),
+                            titleCard("    Age   ",
+                                widget.vehicle.age!.toString() + " Yrs"),
+                            titleCard(
+                                "Run",
+                                widget.vehicle.odometerReading!.toString() +
+                                    " Kms")
                           ],
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0, left: 16.0),
                         child: Text(
-                          "\u2022  " + vehicle.details!,
+                          "\u2022  " + widget.vehicle.details!,
                           style: const TextStyle(fontSize: 18),
                         ),
                       ),
                       const Spacer(),
                       Center(
-                        child: SolidTextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          text: "Rent Vehicle",
-                          buttonColor: kBlueButtonColor,
-                        ),
-                      )
+                        child: ValueListenableBuilder(
+                            valueListenable: submitting,
+                            builder: (BuildContext context, bool value, _) {
+                              return SolidTextButton(
+                                onPressed: () async {
+                                  if (submitting.value) return;
+                                  errorMessage.value = null;
+
+                                  RentalsRemoteDatasource.createRental(
+                                    Rental(
+                                      userId: widget.userId,
+                                      vehicleId: widget.vehicle.id,
+                                      startLocationId: widget.startLocationId,
+                                      endLocationId: widget.endLocationId,
+                                      rentalStatus: "Pending",
+                                      numDays: widget.numDays,
+                                      distance: widget.distance.toInt(),
+                                    ),
+                                  ).then((value) {
+                                    submitting.value = false;
+                                    if (value["success"] == true) {
+                                      Navigator.of(context).pop();
+                                    } else {
+                                      errorMessage.value =
+                                          "Could not process the rental";
+                                    }
+                                  });
+
+                                  submitting.value = true;
+                                },
+                                isLoading: value,
+                                text: "Rent Vehicle",
+                                buttonColor: kBlueButtonColor,
+                              );
+                            }),
+                      ),
+                      ValueListenableBuilder(
+                          valueListenable: errorMessage,
+                          builder: (BuildContext context, String? value, _) {
+                            return value != null
+                                ? Center(
+                                    child: Text(
+                                      value!,
+                                      style: const TextStyle(color: Colors.red),
+                                    ),
+                                  )
+                                : Container();
+                          })
                     ],
                   ),
                 ),
